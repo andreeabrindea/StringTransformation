@@ -57,7 +57,7 @@ func main() {
 
 	inputList := createAListOfRecords(data) //creating a list of those records from input.csv
 
-	sort.Slice(inputList[:], func(i, j int) bool { //sort the records
+	sort.Slice(inputList[:], func(i, j int) bool { //sort the records (because in my head seemed easier to remove duplicates later on)
 		return inputList[i].fname < inputList[j].fname
 	})
 
@@ -91,10 +91,10 @@ func main() {
 			lines = append(lines, line)
 		}
 
-		line := []string{v.fname, v.email, v.location} //convert the records to string so it can be written in the field IDK WHY EMAIL and Location have a space before
-		//d:=strings.ReplaceAll(line," ", "")
+		line := []string{v.fname, v.email, v.location} //convert the records to string so it can be written in the field
+
 		for i := range line {
-			line[i] = strings.ReplaceAll(line[i], " ", "")
+			line[i] = strings.ReplaceAll(line[i], " ", "") // needed to do that so the email and location won't have a space before
 		}
 		lines = append(lines, line)
 

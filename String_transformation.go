@@ -74,17 +74,16 @@ func main() {
 	}
 
 	csvwriter := csv.NewWriter(outputFile)
-	csvwriter.Comma = ','
 
 	var lines [][]string
 	firstLetter := ""
 	for _, v := range inputList {
 		if v.fname[0:1] != firstLetter {
 			firstLetter = v.fname[0:1]
-			line := []string{fmt.Sprintf("%s:\n", firstLetter)}
+			line := []string{fmt.Sprintf("%s:", firstLetter)}
 			lines = append(lines, line)
 		}
-		line := []string{fmt.Sprintf("%s %s %s\n", v.fname, v.email, v.location)}
+		line := []string{fmt.Sprintf("%s %s %s", v.fname, v.email, v.location)}
 		lines = append(lines, line)
 	}
 

@@ -13,7 +13,7 @@ type CSVRecord struct {
 	location string
 }
 
-func createOutput(data [][]string) []CSVRecord {
+func createAListOfRecords(data [][]string) []CSVRecord {
 	var inputList []CSVRecord
 
 	for i, line := range data {
@@ -48,18 +48,19 @@ func main() {
 	//reading the file
 	reader := csv.NewReader(f)
 	data, err := reader.ReadAll()
+
 	if err != nil {
 		log.Fatal(err)
 	}
 	f.Close()
 
-	inputList := createOutput(data)
+	inputList := createAListOfRecords(data) //creating a list of those records from input.csv
 
-	sort.Slice(inputList[:], func(i, j int) bool {
+	sort.Slice(inputList[:], func(i, j int) bool { //sort the records
 		return inputList[i].fname < inputList[j].fname
 	})
 
-	for i := 1; i < len(inputList); i++ {
+	for i := 1; i < len(inputList); i++ { //eliminates duplicates
 		if inputList[i-1].fname == inputList[i].fname {
 			copy(inputList[i:], inputList[i+1:])
 			inputList[len(inputList)-1] = CSVRecord{}
@@ -67,7 +68,7 @@ func main() {
 		}
 	}
 
-	outputFile, err := os.Create("output.csv")
+	outputFile, err := os.Create("output.csv") //create the output.csv file
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -78,17 +79,18 @@ func main() {
 	firstLetter := ""
 	for i, v := range inputList {
 		if v.fname[0:1] != firstLetter {
-			firstLetter = v.fname[0:1]
-			firstLetterAndDots := firstLetter + ":"
-			line := []string{firstLetterAndDots}
-			newLine := []string{}
-			if i != 0 {
+			firstLetter = v.fname[0:1]              //get the first letter of each row of records
+			firstLetterAndDots := firstLetter + ":" //add that :
+			line := []string{firstLetterAndDots}    //convert firstLetter to a string so it can be written in the output.csv file
+			newLine := []string{}                   //an empty line is needed before each first letter
+			if i != 0 {                             //except the first one
 				lines = append(lines, newLine)
 			}
 
 			lines = append(lines, line)
 		}
-		line := []string{v.fname, v.email, v.location}
+
+		line := []string{v.fname, v.email, v.location} //convert the records to string so it can be written in the field IDK WHY EMAIL and Location have a space before
 		lines = append(lines, line)
 
 	}

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"sort"
+	"strings"
 )
 
 type CSVRecord struct {
@@ -91,6 +92,10 @@ func main() {
 		}
 
 		line := []string{v.fname, v.email, v.location} //convert the records to string so it can be written in the field IDK WHY EMAIL and Location have a space before
+		//d:=strings.ReplaceAll(line," ", "")
+		for i := range line {
+			line[i] = strings.ReplaceAll(line[i], " ", "")
+		}
 		lines = append(lines, line)
 
 	}

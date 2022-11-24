@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/csv"
-	"fmt"
 	"log"
 	"os"
 	"sort"
@@ -77,14 +76,21 @@ func main() {
 
 	var lines [][]string
 	firstLetter := ""
-	for _, v := range inputList {
+	for i, v := range inputList {
 		if v.fname[0:1] != firstLetter {
 			firstLetter = v.fname[0:1]
-			line := []string{fmt.Sprintf("%s:", firstLetter)}
+			firstLetterAndDots := firstLetter + ":"
+			line := []string{firstLetterAndDots}
+			newLine := []string{}
+			if i != 0 {
+				lines = append(lines, newLine)
+			}
+
 			lines = append(lines, line)
 		}
-		line := []string{fmt.Sprintf("%s %s %s", v.fname, v.email, v.location)}
+		line := []string{v.fname, v.email, v.location}
 		lines = append(lines, line)
+
 	}
 
 	csvwriter.WriteAll(lines)

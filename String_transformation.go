@@ -8,6 +8,12 @@ import (
 	"os"
 )
 
+type CSVRecords struct {
+	fname    string
+	email    string
+	location string
+}
+
 func main() {
 	//opening the csv file
 	f, error := os.Open("input.csv")
@@ -21,7 +27,7 @@ func main() {
 
 	for {
 		row, err := reader.Read()
-		if err == io.EOF {
+		if err == io.EOF { // Here it stops reading because EOF is the error returned by Read when no more input is available.
 			break
 		}
 		if err != nil {

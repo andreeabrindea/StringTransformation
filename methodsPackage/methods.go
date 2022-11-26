@@ -2,7 +2,7 @@ package methodsPackage
 
 import (
 	"encoding/csv"
-	"errors"
+	"log"
 	"os"
 	"strings"
 )
@@ -11,6 +11,23 @@ type CSVRecord struct {
 	Fname    string
 	Email    string
 	Location string
+}
+
+func WriteToFile(fileName string, newLines []CSVRecord) {
+	inputFile, err := os.Create("input.csv") //create the input.csv file
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		inputFile.Close()
+	}()
+
+	csvwriter := csv.NewWriter(inputFile)
+	//csvwriter.LazyQuotes = true
+	defer func() {
+		csvwriter.Flush()
+	}()
+
 }
 
 func ReadFromFile(fileName string) ([][]string, error) {
@@ -27,20 +44,17 @@ func ReadFromFile(fileName string) ([][]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	f.Close()
+	err1 := f.Close()
+	if err1 != nil {
+		return nil, err1
+	}
 
 	return data, nil
 }
 
 func Parse(data [][]string) []CSVRecord {
 	var inputList []CSVRecord
-	aux := '"'
 
-	for k := 0; k < len(data); k++ {
-		for j := 0; j < len(data); j++ {
-			data[k][j] = strings.ReplaceAll(data[k][j], string(aux), "")
-		}
-	}
 	for i, line := range data {
 		// omit header line
 		if i == 0 {
@@ -53,9 +67,6 @@ func Parse(data [][]string) []CSVRecord {
 }
 
 func remove(list []CSVRecord, index int) ([]CSVRecord, error) {
-	if len(list) == index+1 {
-		return nil, errors.New("index out of bounds")
-	}
 	copy(list[index:], list[index+1:])
 	list[len(list)-1] = CSVRecord{}
 	return list[:len(list)-1], nil

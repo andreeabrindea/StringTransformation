@@ -25,17 +25,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	var linesOutput [][]string
 	firstLetter := ""
-	for i, v := range newLines {
+	for _, v := range newLines {
 		if v.Fname[0:1] != firstLetter {
 			firstLetter = v.Fname[0:1] //get the first letter of each row of records
 
+			fmt.Println(" ")
 			fmt.Println(firstLetter + ":")
-			var newLine []string //an empty line is needed before each first letter
-			if i != 0 {          //except the first one
-				linesOutput = append(linesOutput, newLine)
-			}
 		}
 		line := fmt.Sprintf("%s %s %s", v.Fname, v.Email, v.Location) //convert the records to string, so it can be written in the field
 

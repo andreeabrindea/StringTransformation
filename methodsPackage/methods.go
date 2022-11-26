@@ -1,8 +1,8 @@
 package methodsPackage
 
 import (
-	"encoding/csv"
-	"log"
+	"bufio"
+	"fmt"
 	"os"
 	"strings"
 )
@@ -13,57 +13,22 @@ type CSVRecord struct {
 	Location string
 }
 
-func WriteToFile(fileName string, newLines []CSVRecord) {
-	inputFile, err := os.Create("input.csv") //create the input.csv file
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer func() {
-		inputFile.Close()
-	}()
+func Input(n int) []CSVRecord {
+	scanner := bufio.NewScanner(os.Stdin)
 
-	csvwriter := csv.NewWriter(inputFile)
-	//csvwriter.LazyQuotes = true
-	defer func() {
-		csvwriter.Flush()
-	}()
-
-}
-
-func ReadFromFile(fileName string) ([][]string, error) {
-	f, err := os.Open(fileName)
-
-	if err != nil {
-		return nil, err
-	}
-
-	//reading the file
-	reader := csv.NewReader(f)
-	data, err := reader.ReadAll()
-
-	if err != nil {
-		return nil, err
-	}
-	err1 := f.Close()
-	if err1 != nil {
-		return nil, err1
-	}
-
-	return data, nil
-}
-
-func Parse(data [][]string) []CSVRecord {
-	var inputList []CSVRecord
-
-	for i, line := range data {
-		// omit header line
+	fmt.Println("Enter the records")
+	var lines []CSVRecord
+	for i := 0; i <= n; i++ {
+		scanner.Scan()
+		line := scanner.Text()
+		data := strings.Split(line, ",")
 		if i == 0 {
 			continue
 		}
-		rec := CSVRecord{strings.TrimSpace(line[0]), strings.TrimSpace(line[1]), strings.TrimSpace(line[2])}
-		inputList = append(inputList, rec)
+		lines = append(lines, CSVRecord{Fname: strings.TrimSpace(data[0]), Email: strings.TrimSpace(data[1]), Location: strings.TrimSpace(data[2])})
+
 	}
-	return inputList
+	return lines
 }
 
 func remove(list []CSVRecord, index int) ([]CSVRecord, error) {

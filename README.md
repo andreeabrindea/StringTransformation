@@ -52,6 +52,6 @@ Bogdan, vox@example.com, Resita
 ```
 ##### and the tests:
 ```
- go test .
+ go test -v ./test 
 
 ```

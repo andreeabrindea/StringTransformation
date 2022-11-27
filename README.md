@@ -49,7 +49,6 @@ Bogdan, vox@example.com, Resita
 ##### clone this repository and run the following commands:
 ```
  go run String_transformation.go
-
 ```
 ##### and the tests:
 ```

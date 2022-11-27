@@ -4,37 +4,38 @@ import (
 	"fmt"
 	"log"
 	"sort"
-	"test1/methodsPackage"
+	"test1/methods"
 )
 
 func main() {
 	n := 0
-	fmt.Println("How many records ?")
+	fmt.Println("How many records?")
 	_, err := fmt.Scanln(&n)
-	if err != nil {
-		return
-	}
-	lines := methodsPackage.Input(n)
 
-	sort.Slice(lines[:], func(i, j int) bool { //sort the records (because in my head seemed easier to remove duplicates later on)
-		return lines[i].Fname < lines[j].Fname
+	input := methods.Input(n)
+
+	sort.Slice(input[:], func(i, j int) bool { //sort the records (because in my head seemed easier to remove duplicates later on)
+		return input[i].Fname < input[j].Fname
 	})
 
-	newLines, err := methodsPackage.RemoveDuplicates(lines) //sorted and without duplicates
+	output, err := methods.RemoveDuplicates(input) //sorted and without duplicates
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	if len(input) != 0 {
+		fmt.Println("----------------------")
+		fmt.Println("output:")
+	}
 	firstLetter := ""
-	for _, v := range newLines {
+	for _, v := range output {
 		if v.Fname[0:1] != firstLetter {
 			firstLetter = v.Fname[0:1] //get the first letter of each row of records
 
 			fmt.Println(" ")
 			fmt.Println(firstLetter + ":")
 		}
-		line := fmt.Sprintf("%s %s %s", v.Fname, v.Email, v.Location) //convert the records to string, so it can be written in the field
+		lineOutput := fmt.Sprintf("%s, %s, %s", v.Fname, v.Email, v.Location) //convert the records to string, so it can be written in the field
 
-		fmt.Println(line)
+		fmt.Println(lineOutput)
 	}
 }

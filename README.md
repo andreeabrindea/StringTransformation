@@ -46,12 +46,12 @@ Bogdan, vox@example.com, Resita
 ----------------------------------------------------
 ```
 ### User Guide:
-##### clone this repository and to run the program you need to run the following commands:
+##### clone this repository and run the following commands:
 ```
  go run String_transformation.go
 
 ```
-##### and to run the tests:
+##### and the tests:
 ```
  go test .
 

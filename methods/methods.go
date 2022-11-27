@@ -14,6 +14,7 @@ type CSVRecord struct {
 	Location string
 }
 
+// Equals verify if two lists of  type CSVRecord are equal
 func Equals(c []CSVRecord, k []CSVRecord) bool {
 	if len(c) != len(k) {
 		return false
